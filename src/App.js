@@ -1,58 +1,35 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import { AsyncStorage } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { persistStore } from 'redux-persist';
+import { Provider } from 'react-redux';
+import registerScreens from './registerScreen';
+import { configureStore, configureTachyons } from './utils';
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+const app = () => {
+    // Disable on screen warning while in debug mode
+    console.disableYellowBox = true;
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+    // build tachyons
+    configureTachyons();
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
-    );
-  }
-}
+    // configure store
+    const store = configureStore();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+    persistStore(store, {
+        storage: AsyncStorage,
+        // whitelist: [],
+        // blacklist: [],
+    }, () => {
+        // register all screens for navigation
+        registerScreens(store, Provider);
+
+        // Run app (single screen)
+        Navigation.startSingleScreenApp({
+            screen: {
+                screen: 'cashmanagement.SplashScreen',
+            },
+        });
+    });
+};
+
+export default app;
