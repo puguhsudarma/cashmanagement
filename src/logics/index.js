@@ -1,5 +1,5 @@
-import logicAccount from './logic.account';
+import logicKasKeluar from './logic.kaskeluar';
 
 export default [
-    ...logicAccount,
+    ...logicKasKeluar,
 ];

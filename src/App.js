@@ -4,6 +4,10 @@ import { persistStore } from 'redux-persist';
 import { Provider } from 'react-redux';
 import registerScreens from './registerScreen';
 import { configureStore, configureTachyons } from './utils';
+import { format } from 'date-fns';
+
+const tgl = format(new Date());
+console.log(tgl);
 
 const app = () => {
     // Disable on screen warning while in debug mode
@@ -26,7 +30,7 @@ const app = () => {
         // Run app (single screen)
         Navigation.startSingleScreenApp({
             screen: {
-                screen: 'cashmanagement.SplashScreen',
+                screen: 'cashmanagement.Login',
             },
         });
     });

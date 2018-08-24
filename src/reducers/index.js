@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import account from './reducer.account';
+import kaskeluar from './reducer.kaskeluar';
 
 export default combineReducers({
-    account,
+    kaskeluar,
 });
